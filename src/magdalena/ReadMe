@@ -1,0 +1,29 @@
+﻿Competition = zawody
+Competition level = klasa zawodów (poziom)
+CrossCountry = bieg przełajowy = skoki przez przeszkody w terenie
+EnduranceRiding = rajd długodystansowy (konny ofc)
+ShowJumping = konkurs w skokach przez przeszkody na placu
+
+DZIEDZICZENIE OVERLAPPING:
+Po User dziedziczy Contestant i Client, bo klient może startować w zawodach organizowanych przez stajnię, a zawodnik może być klientem
+Dziedziczenie zrealizowane za pomocą kompozycji (METODA removeUser i powiązane remove mogą nie działać).
+Bardzo istotny jest konstruktor w klasie User pozwalający na stworzenie JEDNOCZEŚNIE obu obiektów dziedziczących (istota overlapping)
+
+WIELODZIEDZICZENIE:
+Po klasach EnduranceRiding i ShowJumping dziedziczy klasa CrossCountry. Posiada ona atrybuty distance (po klasie EnduranceRiding) oraz numberOfObstacles (po klasie ShowJumping).
+Dziedziczenie zrealizowane za pomocą implementacji interfejsu IEnduranceRiding oraz dziedziczenia po klasie ShowJumping.
+
+DZIEDZICZENIE DISJOINT:
+Po klasie Competition dzidziczą klasy EnduranceRiding i ShowJumping
+
+DZIEDZICZENIE WIELOASPEKTOWE:
+Dodatkowo po klasie Competition dziedziczą klasy 'Regionalne' i 'Ogólnopolskie'.
+Dziedziczenie zrealizowane za pomocą enumu. Reszta opisana w komentarzech w klasie Competition.
+
+
+DZIEDZICZENIE DYNAMIC:
+Employee dziedziczy po User, jednak nie jest zawarty w overlapping, co upraszcza dziedziczenie po nim (nie wiem, jak z "części" zrobić coś, po czym można dziedziczyć, skoro konstruktor jest private, więc wywaliłam go z części overlapping).
+Dziedziczenie zrealizowane za pomocą sprytnego kopiowania obiektów. Ważne jest, aby nie tworzyć najpierw "czystego" usera lub employee, a od razu stworzyć obiekt jednej z klas dziedziczących (Employee emp = new Groom(//atrybuty);). Potem tego stajennego (nie pracownika czy usera) przepisujemy na instruktora.
+
+
+Wszystkie rodzaje dziedziczenia mają przykłady użycia w klasie Main.
