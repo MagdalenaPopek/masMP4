@@ -17,56 +17,37 @@ public class Main {
             e.printStackTrace();
         }
 
-        /**
-         * KLASA ABSTRAKCYJNA I POLIMORFIZM METOD
-         */
-        System.out.println("----------ABSTRAKCYJNA I POLIMORFIZM----------");
-        Employee emp = new Groom("A", "B", date, "12222", date, 1000);
-        Employee emp2 = new Instructor("D", "B", date, "22223445", date, 1000, "22222", "33333");
-        System.out.println(emp + " " + emp.getIncome());
-        System.out.println(emp2 + " " + emp2.getIncome());
 
-        /**
-         * OVERLAPPING
-         */
-        System.out.println("----------OVERLAPPING----------");
-        /*User testUser = new User("Anna", "K", date, "333");
-        Client ok = Client.createClient(testUser, 152, LevelType.advanced);
-        Contestant.createContestant(testUser);
-        testUser.showAllPeople();
-        System.out.println(a.getUser());*/
-        Client a = Client.createClient("A", "B", date, "11111", 173, LevelType.advanced);
-        User u = new User("My", "new", date, "4444", 172, LevelType.advanced);
-        u.showAllPeople();
-/*
-        Contestant.createContestant(a.getUser());
-        a.getUser().showAllPeople();*/
+        Stable stajenka = new Stable("stajenka", "Okopowa 5, Warszawa", "1234567");
 
 
-        /**
-         * WIELODZIEDZICZENIE
-         */
-        System.out.println("----------WIELODZIEDZICZENIE----------");
-        Competition cross = new CrossCountry("Memo", CompetitionLevel.C, date, 123.0, 7, 2);
-        System.out.println(cross);
-        cross.setPrize(20);
-        System.out.println(cross.getPrize());
+        Employee alicja = new Employee(new Person("Alicja", "Nowa", date, "1233"), date, 1275);
+        Employee ewa = new Employee(new Person("Ewa", "K", date, "1443"), date, 2375);
+        stajenka.addEmployee(alicja, RoleType.pracujeW);
+        System.out.println("Alicja " + alicja.getRoleType());
+        ewa.addStable(stajenka, RoleType.pracujeW);
+        System.out.println("Ewa " + ewa.getRoleType());
+        System.out.println("Ewa stajnia " + ewa.getStable());
+        stajenka.addEmployee(alicja, RoleType.jestPrezesem);
+        System.out.println("Alicja " + alicja.getRoleType());
+        stajenka.getEmpRoles();
+        System.out.println("Alicja stajnia " + alicja.getStable());
 
-        /**
-         * WIELOASPEKTOWE
-         */
-        System.out.println("----------WIELOASPEKTOWE----------");
-        cross.toString();
-        System.out.println(cross.getCompetitionType());
+        Person uno = new Person("Uno", "Uno", date, "111");
+        Person dos = new Person("Dos", "Dos", date, "222");
+        Competition comp = new Competition(date, "Jeden");
+        Contestant jeden = new Contestant(uno, comp);
+        Contestant dwa = new Contestant(dos, comp);
+        comp.getContestantsInComp();
 
-        /**
-         * DYNAMIC
-         */
-        System.out.println("----------DYNAMICZNE----------");
-        User us = new User("A", "K", date, "000");
-        Employee groom = new Groom(us, date, 12334);
-        System.out.println(groom);
-        groom = new Instructor(groom, "1222", "12226");
-        System.out.println(groom);
+        System.out.println("==============");
+        Meadow m = Meadow.createMeadow(stajenka, 24.6, 3);
+        Stall s = Stall.createStall(stajenka);
+        Horse h = new Horse("K", date, "11111", "k");
+        h.addMeadow(m);
+        s.addHorse(h);
+        m.getHorsesOnMeadow();
+
+
     }
 }

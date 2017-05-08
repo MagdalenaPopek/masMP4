@@ -1,88 +1,67 @@
 package magdalena;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 /**
- * Created by Magdalena on 2017-04-26.
+ * Created by Magdalena on 2017-04-07.
  */
-public abstract class Competition {
+public class Competition{
+
+    private static int counter;
 
     /**
-     * Nazwa
+     * Nazwa zawodów
      */
-    private String compName;
+    private String name;
 
     /**
-     * Klasa
+     * Numer zawodów
      */
-    private CompetitionLevel competitionLevel;
+    private int competitionNumber;
 
     /**
-     * Data
+     * Data zawodów
      */
     private Date date;
 
-    /**
-     * Rodzaj zawodow
-     */
-    private CompetitionType competitionType;
+    private ArrayList<Contestant> contestantsInComp = new ArrayList<>();
 
-    /**
-     * Nagroda
-     */
-    private double prize;
 
-    //--------OGÓLNOPOLSKIE--------
-    private double price;
 
-    //--------REGIONALNE--------
-    private int maxContestantNumber;
-
-    public Competition(String compName, CompetitionLevel competitionLevel, Date date, double price) {
-        this.compName = compName;
-        this.competitionLevel = competitionLevel;
+    public Competition(Date date, String name) {
         this.date = date;
-        this.price = price;
-        this.competitionType = CompetitionType.Ogolnopolskie;
+        this.name = name;
+        this.competitionNumber = counter++;
     }
 
-    public Competition(String compName, CompetitionLevel competitionLevel, Date date, int maxContestantNumber) {
-        this.compName = compName;
-        this.competitionLevel = competitionLevel;
-        this.date = date;
-        this.maxContestantNumber = maxContestantNumber;
-        this.competitionType = CompetitionType.Regionalne;
+    public void setContestant(Contestant contestant) throws Exception {
+        if(!contestantsInComp.contains(contestant)) {
+            contestantsInComp.add(contestant);
+            contestant.setCompetition(this);
+        }
     }
 
-    public void setPrize(double prize){
-        this.prize = prize;
+
+    public String getName() {
+        return name;
     }
 
-    public CompetitionType getCompetitionType() {
-        return competitionType;
+    public int getCompetitionNumber() {
+        return competitionNumber;
     }
 
-    public double getPrize() {
-        return prize;
+    public void getContestantsInComp() {
+        for(Contestant c : contestantsInComp){
+            System.out.println(c);
+        }
     }
 
-    public String getCompName() {
-        return compName;
-    }
-
-    public CompetitionLevel getCompetitionLevel() {
-        return competitionLevel;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public int getMaxContestantNumber() {
-        return maxContestantNumber;
+    @Override
+    public String toString() {
+        return "Zawody " + name +
+                " numer " + competitionNumber +
+                ", data " + date;
     }
 }

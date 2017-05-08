@@ -1,14 +1,16 @@
 package magdalena;
 
 import java.util.Date;
+import java.util.HashSet;
 
 
 /**
- * Created by Magdalena on 2017-04-22.
+ * Created by Magdalena on 2017-05-03.
  */
 
-public abstract class Employee extends User {
+public class Employee extends Person {
 
+    private static HashSet<Employee> allEmployees = new HashSet<>();
 
     /**
      * Data zatrudnienia
@@ -24,20 +26,41 @@ public abstract class Employee extends User {
     /**
      * User
      */
-    private User user;
+    private Person person;
 
+    /**
+     * Stajnia
+     */
+    private Stable stable;
 
-    public Employee(User user, Date hireDate, double salary) {
-        super(user.getName(), user.getSurname(), user.getBirthDate(), user.getPhoneNumber());
+    /**
+     * Rola w stajni
+     */
+    private RoleType roleType;
+
+    public Employee(Person person, Date hireDate, double salary) {
+        super(person.getName(), person.getSurname(), person.getBirthDate(), person.getPhoneNumber());
         this.hireDate = hireDate;
         this.salary = salary;
+        allEmployees.add(this);
     }
 
     public Employee(String name, String surname, Date birthDate, String phoneNumber, Date hireDate, double salary) {
         super(name, surname, birthDate, phoneNumber);
         this.hireDate = hireDate;
         this.salary = salary;
+        allEmployees.add(this);
     }
+
+    public void addStable(Stable stable, RoleType roleType) throws Exception {
+        if(this.stable == null) {
+            this.stable = stable;
+            this.roleType = roleType;
+            stable.addEmployee(this, roleType);
+        }
+    }
+
+
 
     public void setHireDate(Date hireDate) {
         this.hireDate = hireDate;
@@ -59,6 +82,18 @@ public abstract class Employee extends User {
         return this.salary;
     }
 
+    public Stable getStable() {
+        return stable;
+    }
+
+    public void setRoleType(RoleType roleType) {
+        this.roleType = roleType;
+    }
+
+    public RoleType getRoleType() {
+        return roleType;
+    }
+
     @Override
     public String toString() {
         return "Pracownik " + getName()
@@ -66,7 +101,8 @@ public abstract class Employee extends User {
                 + " zatrudniony " + hireDate;
     }
 
-    public User getUser() {
-        return user;
+    public Person getPerson() {
+        return person;
     }
+
 }
