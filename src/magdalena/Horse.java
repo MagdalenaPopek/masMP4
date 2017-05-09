@@ -12,6 +12,14 @@ public class Horse {
     private Meadow meadow;
 
     /**
+     * Szkółka, do której należy koń
+     */
+    private RidingSchool ridingSchool;
+
+    private boolean isShowHorse;
+    private HashSet<HorseCompetition> whereTookPart = new HashSet<>();
+
+    /**
      * Imię
      */
     private String name;
@@ -60,8 +68,6 @@ public class Horse {
         if (this.stall == null && this.meadow == null) {
             this.stall = stall;
             stall.addHorse(this);
-        }else{
-            throw new Exception("Koń już ma gdzie mieszkać");
         }
     }
 
@@ -69,8 +75,6 @@ public class Horse {
         if (this.stall == null && this.meadow == null) {
             this.meadow = meadow;
             meadow.addHorse(this);
-        }else{
-            throw new Exception("Koń już ma gdzie mieszkać");
         }
     }
 
@@ -117,5 +121,37 @@ public class Horse {
                 ", " + gender;
     }
 
+    public void setIsShowHorse(HorseCompetition horseCompetition) {
+        if (this.ridingSchool == null) {
+            this.isShowHorse = true;
+            horseCompetition.setHorse(this);
+        }
+    }
 
+    public void removeShowHorse(){
+        this.isShowHorse = false;
+
+    }
+
+    public boolean isShowHorse() {
+        return isShowHorse;
+    }
+
+    public void setRidingSchool(RidingSchool ridingSchool) {
+        if (!isShowHorse) {
+            this.ridingSchool = ridingSchool;
+            ridingSchool.addHorse(this);
+        }
+    }
+
+    public void removeRidingSchool() {
+        if (this.ridingSchool != null) {
+            ridingSchool.removeHorse(this);
+            this.ridingSchool = null;
+        }
+    }
+
+    public RidingSchool getRidingSchool() {
+        return ridingSchool;
+    }
 }

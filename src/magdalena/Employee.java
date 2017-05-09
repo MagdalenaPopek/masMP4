@@ -11,6 +11,7 @@ import java.util.HashSet;
 public class Employee extends Person {
 
     private static HashSet<Employee> allEmployees = new HashSet<>();
+    final static double maxBonus = 600;
 
     /**
      * Data zatrudnienia
@@ -34,9 +35,11 @@ public class Employee extends Person {
     private Stable stable;
 
     /**
-     * Rola w stajni
+     * Bonus
      */
-    private RoleType roleType;
+    private double bonus;
+
+    private boolean isDirector;
 
     public Employee(Person person, Date hireDate, double salary) {
         super(person.getName(), person.getSurname(), person.getBirthDate(), person.getPhoneNumber());
@@ -52,14 +55,34 @@ public class Employee extends Person {
         allEmployees.add(this);
     }
 
-    public void addStable(Stable stable, RoleType roleType) throws Exception {
-        if(this.stable == null) {
+    public void addStable(Stable stable) throws Exception {
+        if (this.stable == null) {
             this.stable = stable;
-            this.roleType = roleType;
-            stable.addEmployee(this, roleType);
+            stable.addEmployee(this);
         }
     }
 
+    public void setDirector() {
+        if (!isDirector && stable.getEmployees().contains(this)) {
+            isDirector = true;
+            stable.addDirector(this);
+        }
+    }
+
+    public void removeDirector() {
+        if (isDirector && stable.getDirector() != null){
+            this.isDirector = false;
+            stable.removeDirector();
+        }
+
+    }
+
+    public void setBonus(double bonus) throws Exception {
+        if (bonus > maxBonus) {
+            throw new Exception("Bonus nie może być większy niż 600zł");
+        }
+        this.bonus = bonus;
+    }
 
 
     public void setHireDate(Date hireDate) {
@@ -78,7 +101,7 @@ public class Employee extends Person {
         return salary;
     }
 
-    protected double getIncome(){
+    protected double getIncome() {
         return this.salary;
     }
 
@@ -86,13 +109,11 @@ public class Employee extends Person {
         return stable;
     }
 
-    public void setRoleType(RoleType roleType) {
-        this.roleType = roleType;
+    public boolean isDirector() {
+        return isDirector;
     }
 
-    public RoleType getRoleType() {
-        return roleType;
-    }
+
 
     @Override
     public String toString() {

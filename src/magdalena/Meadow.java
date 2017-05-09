@@ -16,7 +16,7 @@ public class Meadow {
     private int id;
 
     /**
-     * Powierzchnia
+     * Powierzchnia, nie może być mniejsza niż 3000ha
      */
     private double area;
 
@@ -35,23 +35,20 @@ public class Meadow {
      */
     private List<Horse> horsesOnMeadow = new ArrayList<>();
 
-    private Meadow(Stable stable, double area, int maxHorsesNumber) throws Exception {
+    private Meadow(Stable stable, double area) throws Exception {
         this.stable = stable;
         this.area = area;
-        if(maxHorsesNumber < 1){
-            throw new Exception("Liczba koni musi wynosić co najmniej 1");
-        }
-        this.maxHorsesNumber = maxHorsesNumber;
+        this.setMaxHorsesNumber();
         this.id = counter++;
     }
 
     //Tu się upewniam, że pastwisko nie zostanie utworzone bez stajni
-    public static Meadow createMeadow(Stable stable, double area, int maxHorsesNumber) throws Exception {
+    public static Meadow createMeadow(Stable stable, double area) throws Exception {
         if(stable == null){
             throw new Exception("Podana stajnia nie istnieje");
         }
 
-        Meadow m = new Meadow(stable, area, maxHorsesNumber);
+        Meadow m = new Meadow(stable, area);
         stable.addMeadow(m);
 
         return m;
@@ -77,5 +74,16 @@ public class Meadow {
         for(Horse h : horsesOnMeadow){
             System.out.println(h);
         }
+    }
+
+    private void setMaxHorsesNumber(){
+        if(this.area/3000 < 1){
+            System.out.println("Pastwisko musi mieć minimum 3000m2");
+        }
+       this.maxHorsesNumber = (int)this.area/3000;
+    }
+
+    public int getMaxHorsesNumber() {
+        return maxHorsesNumber;
     }
 }

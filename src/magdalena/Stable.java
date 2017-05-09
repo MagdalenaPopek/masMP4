@@ -1,5 +1,6 @@
 package magdalena;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -38,9 +39,10 @@ public class Stable {
     private static ArrayList<Meadow> allMeadows = new ArrayList<>();
 
     /**
-     * Pracownicy, którzy pracują w stajni
+     * Pracownicy, którzy pracują w stajni i dyrektor
      */
-    private HashMap<Employee, RoleType> empRole = new HashMap<>();
+    private ArrayList<Employee> employees = new ArrayList<>();
+    private Employee director;
 
     private static HashSet<Stable> allStables = new HashSet<>();
 
@@ -67,18 +69,25 @@ public class Stable {
         }
     }
 
-    public void addEmployee(Employee emp, RoleType roleType) throws Exception {
-        if (roleType == RoleType.pracujeW) {
-            empRole.putIfAbsent(emp, roleType);
-            emp.addStable(this, roleType);
+    public void addEmployee(Employee emp) throws Exception {
+        if (!employees.contains(emp)) {
+            employees.add(emp);
+            emp.addStable(this);
         }
-        if (roleType == RoleType.jestPrezesem) {
-            if (!empRole.containsKey(RoleType.jestPrezesem)) {
-                if (empRole.containsKey(emp)) {
-                    empRole.put(emp, roleType);
-                    emp.setRoleType(roleType);
-                }
-            }
+    }
+
+    public void addDirector(Employee emp) {
+        if (employees.contains(emp)) {
+            this.director = emp;
+            emp.setDirector();
+
+        }
+    }
+
+    public void removeDirector(){
+        if(this.director != null){
+            director.removeDirector();
+            this.director = null;
         }
     }
 
@@ -102,7 +111,6 @@ public class Stable {
     }
 
 
-
     public void showStalls() {
         String info = "Stajnia " + stableName + ": \n";
         for (Stall s : stalls) {
@@ -111,22 +119,22 @@ public class Stable {
         System.out.println(info);
     }
 
-
-
-
-    public void addPrezes(Employee emp){
-
-    }
     public static HashSet<Stall> getAllStalls() {
         return allStalls;
     }
 
-    public void getEmpRoles() {
-        for (Map.Entry<Employee, RoleType> entry : empRole.entrySet()) {
-            String key = entry.getKey().toString();
-            String value = entry.getValue().toString();
-            System.out.println(key + ": " + value);
+    public void showEmployees() {
+        for (Employee e : employees) {
+            System.out.println(e);
         }
+    }
+
+    public ArrayList<Employee> getEmployees() {
+        return employees;
+    }
+
+    public Employee getDirector(){
+        return director;
     }
 
     @Override

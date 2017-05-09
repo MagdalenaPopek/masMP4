@@ -1,8 +1,6 @@
 package magdalena;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Created by Magdalena on 2017-04-07.
@@ -27,6 +25,8 @@ public class Competition{
     private Date date;
 
     private ArrayList<Contestant> contestantsInComp = new ArrayList<>();
+    private ArrayList<HorseCompetition> horsesInComp = new ArrayList<>();
+    private Map<Contestant, HorseCompetition> contestantHorseMap = new HashMap<>();
 
 
 
@@ -43,6 +43,30 @@ public class Competition{
         }
     }
 
+    public void setShowHorse(HorseCompetition horseCompetition) {
+        if(!horsesInComp.contains(horseCompetition)) {
+            horsesInComp.add(horseCompetition);
+            horseCompetition.setCompetition(this);
+        }
+    }
+
+    public void removeShowHorse(HorseCompetition hc){
+        if(horsesInComp.contains(hc)){
+            horsesInComp.remove(hc);
+        }
+    }
+
+    public void showHorses(){
+        for(HorseCompetition h : horsesInComp){
+            System.out.println(h);
+        }
+    }
+
+    /*public void setContestantHorse(Contestant contestant, HorseCompetition horse) throws Exception {
+        if(contestantsInComp.contains(contestant) && contestantHorseMap.containsKey(contestant)) {
+            contestantHorseMap.put(contestant, horse);
+        }
+    }*/
 
     public String getName() {
         return name;
@@ -64,4 +88,5 @@ public class Competition{
                 " numer " + competitionNumber +
                 ", data " + date;
     }
+
 }
