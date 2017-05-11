@@ -1,6 +1,7 @@
 package magdalena;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Horse {
@@ -18,6 +19,7 @@ public class Horse {
 
     private boolean isShowHorse;
     private HashSet<HorseCompetition> whereTookPart = new HashSet<>();
+    private static HashMap<String, Horse> isUnique = new HashMap<>();
 
     /**
      * Imię
@@ -44,25 +46,26 @@ public class Horse {
      */
     private Owner owner;
 
+
+
     public Horse(String name, Date birthDate, String passportNumber, String gender) throws Exception {
         this.name = name;
         this.birthDate = birthDate;
         this.passportNumber = passportNumber;
         this.gender = gender;
-        if (!isPassportDifferent(passportNumber, allHorses)) {
-            throw new Exception("Koń o podanym numerze paszportu już istnieje");
-        }
+        this.setPassportNr(passportNumber);
         allHorses.add(this);
     }
 
-    private boolean isPassportDifferent(String passportNumber, HashSet<Horse> allHorses) {
-        for (Horse h : allHorses) {
-            if (h.getPassportNumber().equals(passportNumber)) {
-                return false;
-            }
+    private void setPassportNr(String passportNumber) throws Exception {
+        if(isUnique.containsKey(passportNumber)){
+            throw new Exception("Istnieje kon o tym numerze paszportu");
+        } else {
+            this.isUnique.put(passportNumber, this);
         }
-        return true;
     }
+
+
 
     public void addStall(Stall stall) throws Exception {
         if (this.stall == null && this.meadow == null) {
